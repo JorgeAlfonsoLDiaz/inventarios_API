@@ -14,7 +14,7 @@ if __name__ == '__main__':  # Se ejecuta la aplicación
     app.config.from_object(config['development'])  # Se cargan las configuraciones de desarrollo
 
     # Blueprints
-    app.register_blueprint(marcas.main, url_prefix='/inventarios')  # Se registra el blueprint de marcas en la aplicación
+    app.register_blueprint(marcas.main, url_prefix='/inventarios/marcas')  # Se registra el blueprint de marcas en la aplicación
 
     # Manejadores de errores
     app.register_error_handler(404, page_not_found)  # Se registra la función de manejo de errores 404
