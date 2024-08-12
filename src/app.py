@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request 
+from flask_cors import CORS
 
 from config import config  # Se importa el módulo config que permite cargar las configuraciones de la aplicación
 
@@ -6,6 +7,8 @@ from config import config  # Se importa el módulo config que permite cargar las
 from routes import marcas
 
 app = Flask(__name__)  # Se crea la instancia de la aplicación
+
+CORS(app, resources={"*": {"origins": "http://localhost:5173"}})  # Se habilita CORS para la aplicación
 
 def page_not_found(e):  # Función que maneja errores 404
     return jsonify({'message': 'Page not found'}), 404
