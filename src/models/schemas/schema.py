@@ -32,12 +32,12 @@ class EmpresaSchema(Schema):
 
 class UsuarioSchema(Schema):
     id_usuario = fields.Int(required=False)
-    id_empresa = fields.Int(required=True)
+    empresa = fields.Int(required=True)
     area = fields.Int(required=True)
     puesto = fields.Str(required=True, validate=validate.Length(min=1, max=50))
     nombre = fields.Str(required=True, validate=validate.Length(min=1, max=40))
-    apellido_materno = fields.Str(required=False, validate=validate.Length(min=1, max=30))
     apellido_paterno = fields.Str(required=False, validate=validate.Length(min=1, max=30))
+    apellido_materno = fields.Str(required=False, validate=validate.Length(min=1, max=30))
 
 class ClasificacionSchema(Schema):
     id_clasificacion = fields.Int(required=False)
