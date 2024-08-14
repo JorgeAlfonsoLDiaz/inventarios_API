@@ -53,7 +53,7 @@ class InventarioSchema(Schema):
     marca = fields.Int(required=True)
     condicion = fields.Int(required=True)
     no_serie = fields.Str(required=False, validate=validate.Length(min=1, max=15))
-    modelo = fields.Str(required=False, validate=validate.Length(min=1, max=25))
+    modelo = fields.Str(required=True, validate=validate.Length(min=1, max=25))
     fecha_asignacion = fields.Date(required=False)
     cantidad = fields.Int(required=True)
     otras_especificaciones = fields.Str(required=False, validate=validate.Length(min=1, max=120))

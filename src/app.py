@@ -8,12 +8,31 @@ from routes import marcas, condiciones, categorias, areas, empresas, usuarios, c
 
 app = Flask(__name__)  # Se crea la instancia de la aplicación
 
-CORS(app, resources={"*": {"origins": "http://localhost:5173"}})  # Se habilita CORS para la aplicación
+CORS(app)
+  # Se puede configurar CORS para la aplicación
+
+
 
 def page_not_found(e):  # Función que maneja errores 404
     return jsonify({'message': 'Page not found'}), 404
 
 if __name__ == '__main__':  # Se ejecuta la aplicación 
+    INSTALLED_APPS = [
+    # ...
+    'corsheaders',
+    # ...
+    ]
+
+    MIDDLEWARE = [
+    # ...
+    'corsheaders.middleware.CorsMiddleware',
+    # ...
+    ]
+
+    CORS_ALLOWED_ORIGINS = [
+        'http://localhost:5173',
+    ]
+
     app.config.from_object(config['development'])  # Se cargan las configuraciones de desarrollo
 
     # Blueprints

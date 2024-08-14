@@ -105,3 +105,13 @@ def update_articulos(id):
     
     except Exception as e:
         return jsonify({'message': str(e)}), 500  # Retorna un mensaje de error 500
+    
+
+
+@main.route('/listar', methods=['GET'])  # Se define una ruta para la URI '/inventario' con el método GET
+def listar_articulos():
+    try:
+        articulos = ModeloInventario.listar_articulos()  # Se obtienen los resultados
+        return jsonify(articulos), 200  # Retorna un objeto JSON usando jsonify
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500  # Retorna un mensaje de error 500

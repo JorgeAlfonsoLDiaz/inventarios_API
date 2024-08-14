@@ -20,13 +20,7 @@ main = Blueprint('marcas_blueprint', __name__)   # Se crea una instancia de Blue
 #                                                          |
 #                                                          V
 
-@main.route('/', methods=['GET'])  # Se define una ruta para la URI '/marcas' con el método GET
-def get_marcas():
-    try:
-        marcas = ModeloMarcas.get_marcas()  # Se obtienen los resultados
-        return jsonify(marcas), 200  # Retorna un objeto JSON usando jsonify
-    except Exception as e:
-        return jsonify({'message': str(e)}), 500  # Retorna un mensaje de error 500
+
     
 
 

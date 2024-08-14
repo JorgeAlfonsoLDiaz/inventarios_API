@@ -1,5 +1,6 @@
 from database.db import get_connection # Se importa la función get_connection del módulo db
 from .entities.Inventario import Inventario # Se importa la clase Inventario del módulo entities.Inventario
+from .entities.InventarioLista import InventarioLista # Se importa la clase InventarioLista del módulo entities.InventarioLista
 
 class ModeloInventario():
 
@@ -103,6 +104,60 @@ class ModeloInventario():
 
             connection.close()
             return filas_afectadas
+        
+        except Exception as e:
+            raise Exception(e)
+    
+    @classmethod
+    def listar_articulos(self):  # Listar todos los registros (no eliminados)
+        try: 
+            connection = get_connection()  # Se ejecuta la función get_connection para obtener una conexión a la base de datos
+            articulos = []  # Aquí se almacenan los resultados finales
+
+            with connection.cursor() as cursor:
+                cursor.execute("""SELECT 
+                                    i.id_articulo,
+                                    u.nombre AS usuario_nombre,
+                                    u.apellido_paterno AS usuario_apellido_paterno,
+                                    u.apellido_materno AS usuario_apellido_materno,
+                                    u.puesto AS puesto,
+                                    i.fecha_asignacion,
+                                    c.nombre AS tipo,
+                                    m.nombre AS marca,
+                                    i.modelo,
+                                    co.condicion AS condicion,
+                                    i.cantidad
+                                FROM 
+                                    inventario i
+                                LEFT JOIN 
+                                    usuarios u ON i.usuario_asignado = u.id_usuario
+                                JOIN 
+                                    clasificaciones c ON i.clasificacion = c.id_clasificacion
+                                JOIN 
+                                    marcas m ON i.marca = m.id_marca
+                                JOIN 
+                                    condiciones co ON i.condicion = co.id_condicion
+                                WHERE
+                                    i.eliminado = false;""") # Se ejecuta una consulta para obtener todos los registros que no han sido eliminados
+                resultado = cursor.fetchall()  # Se obtienen los resultados de la consulta
+
+                for row in resultado:
+                    nombre_completo = f"{row[1] or ''} {row[2] or ''} {row[3] or ''}".strip()
+                    articulo = InventarioLista(
+                    id_articulo=row[0],
+                    usuario_asignado=nombre_completo,
+                    puesto=row[4],
+                    fecha_asignacion=row[5],
+                    tipo=row[6],
+                    marca=row[7],
+                    modelo=row[8],
+                    condicion=row[9],
+                    cantidad=row[10]
+                )  # Se crea una nueva entidad de esta manera, evitando tener errores por valores vacíos
+                    articulos.append(articulo.to_JSON())
+
+            connection.close()
+            return articulos
         
         except Exception as e:
             raise Exception(e)
