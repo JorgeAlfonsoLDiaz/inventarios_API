@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request # Se importan las clases Blueprint, jsonify y request de Flask
+from flask_cors import CORS
 
 # Validación
 from marshmallow import ValidationError
@@ -16,6 +17,9 @@ from models.schemas.schema import MarcaSchema  # Se importa el schema
 
 main = Blueprint('marcas_blueprint', __name__)   # Se crea una instancia de Blueprint con el nombre 'marcas_blueprint'
 
+# CORS(main, resources={r"/*": {"origins": "http://localhost:5173"}})
+
+
 # Aquí van las rutas correspondientes a la entidad Marcas  |
 #                                                          |
 #                                                          V
@@ -24,7 +28,7 @@ main = Blueprint('marcas_blueprint', __name__)   # Se crea una instancia de Blue
 def get_marcas():
     try:
         marcas = ModeloMarcas.get_marcas()  # Se obtienen los resultados
-        return jsonify(marcas), 200  # Retorna un objeto JSON usando jsonify
+        return jsonify(marcas), 200, {'Access-Control-Allow-Origin':'*'}  # Retorna un objeto JSON usando jsonify
     except Exception as e:
         return jsonify({'message': str(e)}), 500  # Retorna un mensaje de error 500
     
