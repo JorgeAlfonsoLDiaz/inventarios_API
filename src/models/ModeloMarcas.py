@@ -4,7 +4,7 @@ from .entities.Marcas import Marcas # Se importa la clase Marcas del módulo ent
 class ModeloMarcas():
 
     @classmethod
-    def get_marcas(self):  # Consultar todos los registros (no eliminados)
+    def get_marcas(cls):  # Consultar todos los registros (no eliminados)
         try: 
             connection = get_connection()  # Se ejecuta la función get_connection para obtener una conexión a la base de datos
             marcas = []  # Aquí se almacenan los resultados finales
